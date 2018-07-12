@@ -22,11 +22,11 @@ async function main(req, res) {
         "Cache-Control",
         "public, immutable, s-maxage=31536000, max-age=0"
       );
-      return send(res, 200, { data: { languages: en } });
+      return send(res, 200, { languages: en });
     }
     case "/": {
       res.setHeader("Cache-Control", "public, s-maxage=31536000, max-age=0");
-      return send(res, 200, { data: { languages: en } });
+      return send(res, 200, { languages: en });
     }
     default: {
       res.setHeader("Cache-Control", "private, max-age=0");

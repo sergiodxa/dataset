@@ -10,9 +10,7 @@ Returns the list of languages in English as:
 
 ```json
 {
-  "data": {
-    "languages": [...]
-  }
+  "languages": [...]
 }
 ```
 
