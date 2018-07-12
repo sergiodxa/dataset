@@ -1,44 +1,66 @@
 const { send } = require("micro");
-const get = require("micro-get");
-const cors = require("micro-cors")();
+const cors = require("micro-cors")({ onlyAllow: ["GET"] });
 const { parse } = require("url");
+const { resolve } = require("path");
 
-const en = require("./dataset/en.json");
-
-function log(req) {
-  console.log(
-    `${req.method} ${req.url} from ${req.headers["x-forwareded-from"]}`
-  );
+function setCache(res, { cached }) {
+  if (cached) {
+    res.setHeader(
+      "Cache-Control",
+      "public, immutable, s-maxage=31536000, max-age=0"
+    );
+  } else {
+    res.setHeader("Cache-Control", "private, max-age=0");
+  }
 }
 
-async function main(req, res) {
-  log(req);
-
+function getDataset(req, res) {
   const { pathname } = parse(req.url);
 
-  switch (pathname) {
-    case "/en": {
-      res.setHeader(
-        "Cache-Control",
-        "public, immutable, s-maxage=31536000, max-age=0"
-      );
-      return send(res, 200, { languages: en });
-    }
-    case "/": {
-      res.setHeader("Cache-Control", "public, s-maxage=31536000, max-age=0");
-      return send(res, 200, { languages: en });
-    }
-    default: {
-      res.setHeader("Cache-Control", "private, max-age=0");
-      return send(res, 404, {
-        error: {
-          code: "not_found",
-          message: `The URL ${pathname} could not be found.`,
-          pathname
-        }
-      });
+  try {
+    const dataset = require(resolve("./dataset", `.${pathname}.json`));
+    return { dataset, pathname };
+  } catch (error) {
+    if (
+      error.code === "MODULE_NOT_FOUND" ||
+      error.code === "ERR_MISSING_MODULE"
+    ) {
+      return { dataset: false, pathname };
+    } else {
+      throw error;
     }
   }
 }
 
-module.exports = cors(get(main));
+function main(req, res) {
+  const { dataset, pathname } = getDataset(req, res);
+  
+  if (!dataset) {
+    setCache(res, { cached: false });
+    return send(res, 404, {
+      error: {
+        code: "not_found",
+        message: `The URL ${pathname} could not be found.`,
+        url: pathname
+      }
+    });
+  }
+
+  setCache(res, { cached: true });
+  return send(res, 200, { [pathname.slice(1)]: dataset });
+}
+
+function onlyGet(next) {
+  return (req, res) => {
+    if (req.method.toUpperCase() === "GET") return next(req, res);
+    return send(res, 405, {
+      error: {
+        code: "invalid_method",
+        message: `The method ${req.method} is not supported.`,
+        method: req.method
+      }
+    });
+  };
+}
+
+module.exports = cors(onlyGet(main));
