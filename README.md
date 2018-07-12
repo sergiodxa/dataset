@@ -1,17 +1,54 @@
-# languages.now.sh
+# dataset.now.sh
 
-A free to use API to get a list of "all" the spoken languages, sorted by name, provided as a JSON for use inside any app.
+A **free to use** API to get a lists of various _common datasets_ such as:
+
+- Languages
+- Countries
+
+All the endpoints with data are cached using [Now CDN](https://zeit.co/cdn) to give the best performance all the time.
 
 ## Endpoints
 
-### `/en` (alias `/`)
+### Get a list of spoken languages
 
-Returns the list of languages in English as:
+```http
+GET /languages
+```
+
+Returns the list of languages as:
 
 ```json
 {
-  "languages": [...]
+  "languages": [
+    ...
+    {
+      "name": "Spanish",
+      "nativeName": "español",
+      "code": "es"
+    }
+    ...
+  ]
 }
 ```
 
-The array contains strings with each language name.
+Each language contains its name in English, the native name and the language code.
+
+### Get a list of countries
+
+```http
+GET /countries
+```
+
+Returns the list of countries as:
+
+```json
+{
+  "countries": [
+    ...
+    { "code": "US", "country": "United States" }
+    ...
+  ]
+}
+```
+
+Each country contains the name and international code.
