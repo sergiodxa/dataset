@@ -34,10 +34,11 @@ function getDataset(req, res) {
 
 function main(req, res) {
   const { dataset, pathname } = getDataset(req, res);
-  
+
   if (!dataset) {
     setCache(res, { cached: false });
     return send(res, 404, {
+      contribute: "https://github.com/sergiodxa/dataset",
       error: {
         code: "not_found",
         message: `The URL ${pathname} could not be found.`,
@@ -47,7 +48,10 @@ function main(req, res) {
   }
 
   setCache(res, { cached: true });
-  return send(res, 200, { [pathname.slice(1)]: dataset });
+  return send(res, 200, {
+    [pathname.slice(1)]: dataset,
+    contribute: "https://github.com/sergiodxa/dataset"
+  });
 }
 
 function onlyGet(next) {
