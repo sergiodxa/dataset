@@ -11,7 +11,6 @@
     "yarn.lock"
   ],
   "scale": {
-    "sfo1": { "min": 0, "max": 1 },
-    "bru1": { "min": 0, "max": 0 }
+    "sfo1": { "min": 0, "max": 1 }
   }
 }
