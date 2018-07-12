@@ -1,0 +1,7 @@
+{
+  "name": "languages",
+  "alias": "languages.now.sh",
+  "env": {
+    "NODE_ENV": "production"
+  }
+}
