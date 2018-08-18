@@ -14,7 +14,7 @@ function setCache(res, { cached }) {
   }
 }
 
-function getDataset(req, res) {
+function getDataset(req) {
   const { pathname } = parse(req.url);
 
   try {

@@ -1,5 +1,6 @@
 {
   "name": "dataset",
+  "type": "docker",
   "alias": "dataset.now.sh",
   "env": {
     "NODE_ENV": "production"
@@ -10,7 +11,11 @@
     "package.json",
     "yarn.lock"
   ],
+  "features": {
+    "cloud": "v2"
+  },
   "scale": {
-    "sfo1": { "min": 0, "max": 1 }
+    "sfo1": { "min": 0, "max": "auto" },
+    "bru1": { "min": 0, "max": "auto" }
   }
 }
