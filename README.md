@@ -7,6 +7,10 @@ A **free to use** API to get a lists of various _common datasets_ such as:
 
 All the endpoints with data are cached using [Now CDN](https://zeit.co/cdn) to give the best performance all the time.
 
+<a href="https://www.patreon.com/sergiodxa">
+	<img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160">
+</a>
+
 ## Endpoints
 
 ### Get a list of spoken languages
