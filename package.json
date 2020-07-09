@@ -11,7 +11,7 @@
     "dev": "micro-dev"
   },
   "dependencies": {
-    "micro": "^9.3.2",
+    "micro": "^9.3.4",
     "micro-cors": "^0.1.1"
   },
   "devDependencies": {
