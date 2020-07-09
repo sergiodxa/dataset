@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "micro": "^9.3.2",
-    "micro-cors": "^0.1.0"
+    "micro-cors": "^0.1.1"
   },
   "devDependencies": {
     "micro-dev": "^3.0.0"
